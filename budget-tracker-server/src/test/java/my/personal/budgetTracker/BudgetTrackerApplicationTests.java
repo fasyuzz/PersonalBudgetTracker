@@ -1,4 +1,4 @@
-package com.personal.budget_tracker;
+package my.personal.budgetTracker;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
