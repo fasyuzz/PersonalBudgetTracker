@@ -106,7 +106,7 @@ public class ProfileService {
         try{
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authDTO.getEmail(), authDTO.getPassword()));
             // Generate JWT token
-            String token = jwtUtil.generateToken();
+            String token = jwtUtil.generateToken(authDTO.getEmail());
             return Map.of(
                 "token", token,
                 "user", getPublicProfileDTO(authDTO.getEmail())
