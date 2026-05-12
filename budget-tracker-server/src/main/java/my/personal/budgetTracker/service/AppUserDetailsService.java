@@ -15,6 +15,7 @@ import my.personal.budgetTracker.repository.ProfileRepository;
 @Service
 @RequiredArgsConstructor
 public class AppUserDetailsService implements UserDetailsService {
+
     private final ProfileRepository profileRepository;
 
     @Override

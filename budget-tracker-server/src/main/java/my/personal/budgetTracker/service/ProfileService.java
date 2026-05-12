@@ -21,13 +21,14 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class ProfileService {
+
     private final ProfileRepository profileRepository;
     private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
-    public ProfileDTO registerProfile(ProfileDTO profileDTO){
+    public ProfileDTO registerProfile(ProfileDTO profileDTO) {
         ProfileEntity newProfile = toEntity(profileDTO);
         newProfile.setActivationToken(UUID.randomUUID().toString());
         newProfile = profileRepository.save(newProfile);
@@ -39,7 +40,7 @@ public class ProfileService {
         return toDTO(newProfile);
     }
 
-    public ProfileEntity toEntity(ProfileDTO profileDTO){
+    public ProfileEntity toEntity(ProfileDTO profileDTO) {
         return ProfileEntity.builder()
                 .id(profileDTO.getId())
                 .fullName(profileDTO.getFullName())
@@ -51,7 +52,7 @@ public class ProfileService {
                 .build();
     }
 
-    public ProfileDTO toDTO(ProfileEntity profileEntity){
+    public ProfileDTO toDTO(ProfileEntity profileEntity) {
         return ProfileDTO.builder()
                 .id(profileEntity.getId())
                 .fullName(profileEntity.getFullName())
@@ -62,7 +63,7 @@ public class ProfileService {
                 .build();
     }
 
-    public boolean activateProfile(String token){
+    public boolean activateProfile(String token) {
         return profileRepository.findByActivationToken(token)
                 .map(profile -> {
                     profile.setIsActive(true);
@@ -72,25 +73,25 @@ public class ProfileService {
                 .orElse(false);
     }
 
-    public boolean isAccountActivated(String email){
+    public boolean isAccountActivated(String email) {
         return profileRepository.findByEmail(email)
                 .map(ProfileEntity::getIsActive)
                 .orElse(false);
     }
 
-    public ProfileEntity getCurrentProfile(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); 
+    public ProfileEntity getCurrentProfile() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return profileRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new UsernameNotFoundException("Profile not found with email: " + authentication.getName()));
     }
 
-    public ProfileDTO getPublicProfileDTO(String email){
+    public ProfileDTO getPublicProfileDTO(String email) {
         ProfileEntity currentUser;
-        if(email.isEmpty()){
+        if (email.isEmpty()) {
             currentUser = getCurrentProfile();
         } else {
             currentUser = profileRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("Profile not found with email: " + email));
+                    .orElseThrow(() -> new UsernameNotFoundException("Profile not found with email: " + email));
         }
         return ProfileDTO.builder()
                 .id(currentUser.getId())
@@ -102,16 +103,16 @@ public class ProfileService {
                 .build();
     }
 
-    public Map<String, Object> authenticateAndGenerateToken(AuthDTO authDTO){
-        try{
+    public Map<String, Object> authenticateAndGenerateToken(AuthDTO authDTO) {
+        try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authDTO.getEmail(), authDTO.getPassword()));
             // Generate JWT token
             String token = jwtUtil.generateToken(authDTO.getEmail());
             return Map.of(
-                "token", token,
-                "user", getPublicProfileDTO(authDTO.getEmail())
+                    "token", token,
+                    "user", getPublicProfileDTO(authDTO.getEmail())
             );
-        } catch (RuntimeException e){
+        } catch (RuntimeException e) {
             throw new RuntimeException("Invalid email or password");
         }
     }

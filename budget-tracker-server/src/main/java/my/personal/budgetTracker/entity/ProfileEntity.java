@@ -14,6 +14,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @NoArgsConstructor
 @Builder
 public class ProfileEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,7 +32,7 @@ public class ProfileEntity {
     private String activationToken;
 
     @PrePersist
-    public void prePersist(){
+    public void prePersist() {
         if (this.isActive == null) {
             isActive = false;
         }

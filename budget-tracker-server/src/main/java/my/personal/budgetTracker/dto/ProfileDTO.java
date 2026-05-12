@@ -2,16 +2,14 @@ package my.personal.budgetTracker.dto;
 
 import java.time.LocalDateTime;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class ProfileDTO {
+
     private Long id;
     private String fullName;
     private String email;
