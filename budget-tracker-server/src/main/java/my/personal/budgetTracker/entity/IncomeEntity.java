@@ -37,7 +37,7 @@ public class IncomeEntity {
 
     @PrePersist
     public void PrePersist() {
-        if(this.date == null) {
+        if (this.date == null) {
             this.date = LocalDate.now();
         }
     }

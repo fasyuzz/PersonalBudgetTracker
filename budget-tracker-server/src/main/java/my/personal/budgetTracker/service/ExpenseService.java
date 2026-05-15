@@ -26,7 +26,7 @@ public class ExpenseService {
     public ExpenseDTO addExpense(ExpenseDTO expenseDTO) {
         ProfileEntity profile = profileService.getCurrentProfile();
         CategoryEntity category = categoryRepository.findById(expenseDTO.getCategoryId())
-            .orElseThrow(() -> new RuntimeException("Category not found"));
+                .orElseThrow(() -> new RuntimeException("Category not found"));
         ExpenseEntity newExpense = toEntity(expenseDTO, profile, category);
         newExpense = expenseRepository.save(newExpense);
         return toDTO(newExpense);
@@ -44,7 +44,7 @@ public class ExpenseService {
     public void deleteExpense(Long expenseId) {
         ProfileEntity profile = profileService.getCurrentProfile();
         ExpenseEntity deletedExpense = expenseRepository.findById(expenseId)
-            .orElseThrow(() -> new RuntimeException("Expense not found"));
+                .orElseThrow(() -> new RuntimeException("Expense not found"));
         if (!deletedExpense.getProfile().getId().equals(profile.getId())) {
             throw new RuntimeException("Unauthorized to delete this expense");
         }
@@ -87,8 +87,8 @@ public class ExpenseService {
                 .icon(expenseEntity.getIcon())
                 .date(expenseEntity.getDate())
                 .amount(expenseEntity.getAmount())
-                .categoryId(expenseEntity.getCategory()!=null ? expenseEntity.getCategory().getId() : null)
-                .categoryName(expenseEntity.getCategory()!=null ? expenseEntity.getCategory().getName() : "N/A")
+                .categoryId(expenseEntity.getCategory() != null ? expenseEntity.getCategory().getId() : null)
+                .categoryName(expenseEntity.getCategory() != null ? expenseEntity.getCategory().getName() : "N/A")
                 .createdAt(expenseEntity.getCreatedAt())
                 .updatedAt(expenseEntity.getUpdatedAt())
                 .build();

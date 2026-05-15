@@ -20,7 +20,7 @@ public class CategoryService {
     //Save Category
     public CategoryDTO saveCategory(CategoryDTO categoryDTO) {
         ProfileEntity profile = profileService.getCurrentProfile();
-        if(categoryRepository.existsByNameAndProfileId(categoryDTO.getName(), profile.getId())) {
+        if (categoryRepository.existsByNameAndProfileId(categoryDTO.getName(), profile.getId())) {
             throw new RuntimeException("Category with the same name already exists for this profile.");
         }
         CategoryEntity newCategoryEntity = toEntity(categoryDTO, profile);
@@ -45,8 +45,8 @@ public class CategoryService {
         CategoryEntity existingCategory = categoryRepository.findByIdAndProfileId(categoryId, profile.getId())
                 .orElseThrow(() -> new RuntimeException("Category not found for the current profile."));
 
-        if (!existingCategory.getName().equals(categoryDTO.getName()) &&
-                categoryRepository.existsByNameAndProfileId(categoryDTO.getName(), profile.getId())) {
+        if (!existingCategory.getName().equals(categoryDTO.getName())
+                && categoryRepository.existsByNameAndProfileId(categoryDTO.getName(), profile.getId())) {
             throw new RuntimeException("Another category with the same name already exists for this profile.");
         }
 

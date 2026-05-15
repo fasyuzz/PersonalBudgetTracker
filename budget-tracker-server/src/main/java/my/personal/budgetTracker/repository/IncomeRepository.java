@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 import my.personal.budgetTracker.entity.IncomeEntity;
 
-public interface IncomeRepository extends JpaRepository<IncomeEntity, Long>{
+public interface IncomeRepository extends JpaRepository<IncomeEntity, Long> {
 
     List<IncomeEntity> findByProfileIdOrderByDateDesc(Long profileId);
 
@@ -21,16 +21,16 @@ public interface IncomeRepository extends JpaRepository<IncomeEntity, Long>{
     BigDecimal findTotalIncomeByProfileId(@Param("profileId") Long profileId);
 
     List<IncomeEntity> findByProfileIdAndDateBetweenAndNameContainingIgnoreCase(
-        Long profileId,
-        LocalDate startDate,
-        LocalDate endDate,
-        String keyword,
-        Sort sort
+            Long profileId,
+            LocalDate startDate,
+            LocalDate endDate,
+            String keyword,
+            Sort sort
     );
 
     List<IncomeEntity> findByProfileIdAndDateBetween(
-        Long profileId,
-        LocalDate startDate,
-        LocalDate endDate
+            Long profileId,
+            LocalDate startDate,
+            LocalDate endDate
     );
 }

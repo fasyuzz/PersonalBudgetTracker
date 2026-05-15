@@ -26,7 +26,7 @@ public class IncomeService {
     public IncomeDTO addIncome(IncomeDTO incomeDTO) {
         ProfileEntity profile = profileService.getCurrentProfile();
         CategoryEntity category = categoryRepository.findById(incomeDTO.getCategoryId())
-            .orElseThrow(() -> new RuntimeException("Category not found"));
+                .orElseThrow(() -> new RuntimeException("Category not found"));
         IncomeEntity newIncome = toEntity(incomeDTO, profile, category);
         newIncome = incomeRepository.save(newIncome);
         return toDTO(newIncome);
@@ -44,7 +44,7 @@ public class IncomeService {
     public void deleteIncome(Long incomeId) {
         ProfileEntity profile = profileService.getCurrentProfile();
         IncomeEntity deletedIncome = incomeRepository.findById(incomeId)
-            .orElseThrow(() -> new RuntimeException("Income not found"));
+                .orElseThrow(() -> new RuntimeException("Income not found"));
         if (!deletedIncome.getProfile().getId().equals(profile.getId())) {
             throw new RuntimeException("Unauthorized to delete this income");
         }
@@ -87,8 +87,8 @@ public class IncomeService {
                 .icon(incomeEntity.getIcon())
                 .date(incomeEntity.getDate())
                 .amount(incomeEntity.getAmount())
-                .categoryId(incomeEntity.getCategory()!=null ? incomeEntity.getCategory().getId() : null)
-                .categoryName(incomeEntity.getCategory()!=null ? incomeEntity.getCategory().getName() : "N/A")
+                .categoryId(incomeEntity.getCategory() != null ? incomeEntity.getCategory().getId() : null)
+                .categoryName(incomeEntity.getCategory() != null ? incomeEntity.getCategory().getName() : "N/A")
                 .createdAt(incomeEntity.getCreatedAt())
                 .updatedAt(incomeEntity.getUpdatedAt())
                 .build();
